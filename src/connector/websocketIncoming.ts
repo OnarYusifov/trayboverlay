@@ -242,7 +242,7 @@ export class WebsocketIncoming {
     });
 
     serverInstance.listen(5100);
-    Log.info(`Spectra Server ingesting on port 5100!`);
+    Log.info(`Trayb Server ingesting on port 5100!`);
   }
 
   private onAuthSuccess(user: ClientUser) {
@@ -274,7 +274,7 @@ export class WebsocketIncoming {
 
   public async isValidKey(key: string): Promise<KeyValidity> {
     if (process.env.REQUIRE_AUTH_KEY === "false")
-      return { valid: true, reason: ValidityReasons.VALID };
+      return { valid: true, reason: ValidityReasons.VALID, isSupporter: true };
 
     if (process.env.AUTH_KEY === key) return { valid: true, reason: ValidityReasons.VALID };
 

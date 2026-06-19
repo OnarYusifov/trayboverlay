@@ -1,11 +1,11 @@
 {
-  "name": "spectra-server",
+  "name": "trayb-server",
   "version": "0.3.4",
   "author": {
     "name": "Purple Shark UG (haftungsbeschränkt)",
-    "url": "https://valospectra.com"
+    "url": "https://trayb.az"
   },
-  "description": "Server that ingests data from the Spectra Client for processing",
+  "description": "Server that ingests data from the Trayb Client for processing",
   "private": true,
   "main": "dist/index.js",
   "scripts": {

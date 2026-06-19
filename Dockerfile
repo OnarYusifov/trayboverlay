@@ -18,6 +18,8 @@ EXPOSE 5101
 EXPOSE 5200
 
 ENV INSECURE=false
+ENV REQUIRE_AUTH_KEY=true
+ENV USE_BACKEND=false
 ENV SERVER_KEY=/app/keys/server.key
 ENV SERVER_CERT=/app/keys/server.crt
 

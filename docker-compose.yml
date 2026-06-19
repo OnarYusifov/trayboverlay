@@ -1,15 +1,20 @@
 ---
 services:
-  valo-spectra-server:
-    image: valospectra/server
+  valo-trayb-server:
+    image: trayb/server
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "5100:5100"
-      - "5101:5101"
-      - "5200:5200"
+    expose:
+      - "5100"
+      - "5101"
+      - "5200"
     volumes:
       - ./keys:/app/keys
     environment:
-      - INSECURE=true
+      - INSECURE=${INSECURE:-true}
+      - REQUIRE_AUTH_KEY=${REQUIRE_AUTH_KEY:-false}
+      - USE_BACKEND=${USE_BACKEND:-false}
+      - OVERLAY_AUTH_TOKEN=${OVERLAY_AUTH_TOKEN}
+      - BRAND_LOGO_URL=${BRAND_LOGO_URL:-}
+      - BRAND_ICON_URL=${BRAND_ICON_URL:-}

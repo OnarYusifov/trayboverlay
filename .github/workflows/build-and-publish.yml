@@ -37,5 +37,5 @@ jobs:
           push: true
           platforms: linux/amd64, linux/arm64
           tags: |
-            ghcr.io/valospectra/server:latest
-            ghcr.io/valospectra/server:${{ env.RELEASE_TAG }}
+            ghcr.io/trayb/server:latest
+            ghcr.io/trayb/server:${{ env.RELEASE_TAG }}

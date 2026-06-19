@@ -27,7 +27,7 @@ export class ToolsData {
     sponsors: [],
   };
   public watermarkInfo: IWatermarkInfo = {
-    spectraWatermark: true,
+    traybWatermark: true,
     customTextEnabled: false,
     customText: "",
   };
@@ -85,7 +85,7 @@ export type ISponsorInfo = {
 };
 
 export type IWatermarkInfo = {
-  spectraWatermark: boolean;
+  traybWatermark: boolean;
   customTextEnabled: boolean;
   customText: string;
 };

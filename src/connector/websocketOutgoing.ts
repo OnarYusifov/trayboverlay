@@ -5,6 +5,7 @@ import { readFileSync } from "fs";
 import { createServer } from "https";
 import { createServer as createInsecureServer } from "http";
 import { MatchController } from "../controller/MatchController";
+import { timingSafeEqual } from "crypto";
 const Log = logging("WebsocketOutgoing");
 
 export class WebsocketOutgoing {
@@ -51,6 +52,28 @@ export class WebsocketOutgoing {
       cors: { origin: "*" },
     });
 
+    this.wss.use((ws, next) => {
+      const expectedToken = process.env.OVERLAY_AUTH_TOKEN || process.env.OUTPUT_AUTH_TOKEN;
+      if (!expectedToken) {
+        next();
+        return;
+      }
+
+      const headerToken = ws.handshake.headers["x-overlay-auth-token"];
+      const providedToken =
+        ws.handshake.auth?.token ||
+        ws.handshake.query?.token ||
+        (Array.isArray(headerToken) ? headerToken[0] : headerToken);
+
+      if (typeof providedToken === "string" && this.tokensMatch(providedToken, expectedToken)) {
+        next();
+        return;
+      }
+
+      Log.info("Rejected output websocket connection with missing or invalid overlay token.");
+      next(new Error("Unauthorized"));
+    });
+
     this.wss.on(`connection`, (ws) => {
       ws.on("error", (e) => {
         Log.error(`Someone in ${ws.rooms} encountered a Websocket error: ${e}`);
@@ -59,6 +82,12 @@ export class WebsocketOutgoing {
       ws.once("logon", (msg: string) => {
         try {
           const json = JSON.parse(msg);
+          if (!json.groupCode || typeof json.groupCode !== "string") {
+            ws.emit("logon_fail", JSON.stringify({ msg: "Missing group code" }));
+            ws.disconnect();
+            return;
+          }
+
           ws.join(json.groupCode);
           ws.emit(
             "logon_success",
@@ -81,7 +110,13 @@ export class WebsocketOutgoing {
 
     serverInstance.listen(5200);
 
-    Log.info(`Spectra Server outputting on port 5200!`);
+    Log.info(`Trayb Server outputting on port 5200!`);
+  }
+
+  private tokensMatch(providedToken: string, expectedToken: string): boolean {
+    const provided = Buffer.from(providedToken);
+    const expected = Buffer.from(expectedToken);
+    return provided.length === expected.length && timingSafeEqual(provided, expected);
   }
 
   sendMatchData(groupCode: string, data: any) {

@@ -118,7 +118,7 @@ export class ReplayConnectorService {
             sponsors: [],
           },
           watermarkInfo: {
-            spectraWatermark: true,
+            traybWatermark: true,
             customText: "",
             customTextEnabled: false,
           },

@@ -47,9 +47,9 @@ export class PreviewMatch {
 }
 
 export class PreviewTeam {
-  public teamName: string = "Spectra Team";
+  public teamName: string = "Trayb Team";
   public teamTricode: string = "SPTR";
-  public teamUrl: string = "https://auto.valospectra.com/assets/misc/icon.webp";
+  public teamUrl: string = process.env.BRAND_ICON_URL || "";
   public isAttacking: boolean = false;
   public roundsWon: number = 0;
   private spentThisRound: number = 10350;

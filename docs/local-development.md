@@ -10,13 +10,13 @@
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/ValoSpectra/Spectra-Server.git
+   git clone https://github.com/Trayb/Trayb-Server.git
    ```
 
 2. Install dependencies
 
    ```bash
-   cd Spectra-Server
+   cd Trayb-Server
    yarn install
    ```
 
@@ -24,7 +24,7 @@
 
    ```bash
     openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 \
-      -nodes -keyout keys/server.key -out keys/server.crt -subj "/CN=spectra" \
+      -nodes -keyout keys/server.key -out keys/server.crt -subj "/CN=trayb" \
    ```
 
 4. Set up environment variables

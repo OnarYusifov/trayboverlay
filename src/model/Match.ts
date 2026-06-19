@@ -89,17 +89,18 @@ export class Match {
     this.teams.push(firstTeam);
     this.teams.push(secondTeam);
 
-    this.orgIsSupporter = data.isSupporter || false;
+    this.orgIsSupporter = data.isSupporter || process.env.REQUIRE_AUTH_KEY === "false";
 
-    // Add Spectra logo to sponsors if enabled and not a supporter
-    if (this.tools.sponsorInfo.enabled && !this.orgIsSupporter) {
-      this.tools.sponsorInfo.sponsors.push("https://auto.valospectra.com/assets/misc/logo.webp");
+    // Add Trayb logo to sponsors if enabled and not a supporter
+    const forcedSponsorLogoUrl = process.env.BRAND_LOGO_URL;
+    if (forcedSponsorLogoUrl && this.tools.sponsorInfo.enabled && !this.orgIsSupporter) {
+      this.tools.sponsorInfo.sponsors.push(forcedSponsorLogoUrl);
     }
 
-    // !!! Disabling the watermark/setting a custom text without Spectra Plus is against the License terms and strictly forbidden !!!
+    // !!! Disabling the watermark/setting a custom text without Trayb Plus is against the License terms and strictly forbidden !!!
     // Set Watermark info according to settings and supporter role
-    this.tools.watermarkInfo.spectraWatermark =
-      this.tools.watermarkInfo.spectraWatermark || !this.orgIsSupporter;
+    this.tools.watermarkInfo.traybWatermark =
+      this.tools.watermarkInfo.traybWatermark || !this.orgIsSupporter;
     // Deactivate custom text if not a supporter
     this.tools.watermarkInfo.customTextEnabled =
       this.tools.watermarkInfo.customTextEnabled && !!this.orgIsSupporter;

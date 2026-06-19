@@ -87,7 +87,7 @@ export async function handleDiscordAuth(req: Request, res: Response) {
     }
 
     userData.json().then((userData: DiscordUserResponse) => {
-      const deeplinkUrl = `${process.env.SPECTRA_CLIENT_DEEPLINK!}?userId=${userData.id}&username=${userData.username}&avatar=${userData.avatar}`;
+      const deeplinkUrl = `${process.env.TRAYB_CLIENT_DEEPLINK!}?userId=${userData.id}&username=${userData.username}&avatar=${userData.avatar}`;
       res.send(`
         <html>
         <head>
@@ -144,7 +144,7 @@ export async function handleDiscordAuth(req: Request, res: Response) {
             <h2 class="less-top">Welcome, ${userData.global_name ? userData.global_name : userData.username}!</h2>
             <p class="more-top">You may close this window <b>after</b> being redirected to the Client and getting a confirmation.<br>
             If you are not redirected automatically, please click the button below:</p>
-            <a href="${deeplinkUrl}" class="button">Open Spectra Client</a>
+            <a href="${deeplinkUrl}" class="button">Open Trayb Client</a>
           </div>
         </body>
         </html>
