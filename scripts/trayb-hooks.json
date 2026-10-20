@@ -18,5 +18,35 @@
     "file": "client/angular/src/app/AuxiliaryComponent/auxiliary.component.ts",
     "contains": "TraybConfig.ingestServer",
     "issue": 13
+  },
+  {
+    "file": "client/src/main.ts",
+    "contains": "TraybMain",
+    "issue": 15
+  },
+  {
+    "file": "client/src/trayb.config.ts",
+    "contains": "OnarYusifov/trayboverlay",
+    "issue": 15
+  },
+  {
+    "file": "client/package.json",
+    "contains": "Trayb Client",
+    "issue": 14
+  },
+  {
+    "file": "server/src/model/Match.ts",
+    "contains": "process.env.TRAYB_SUPPORTER",
+    "issue": 20
+  },
+  {
+    "file": "client/angular/src/app/trayb.config.ts",
+    "contains": "supporter: true",
+    "issue": 20
+  },
+  {
+    "file": "client/angular/src/app/observer/observer.component.ts",
+    "contains": "TraybConfig.supporter",
+    "issue": 20
   }
 ]

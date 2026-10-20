@@ -13,3 +13,6 @@ All client hooks read `client/angular/src/app/trayb.config.ts` (a new file, so i
 | `client/` | `angular/src/app/observer/observer.component.ts` | Default `ingestIp`, migrate a saved valospectra value, overlay link from `TraybConfig`, hide Spectra extras | Observer uses our server with no setup | #13 | no |
 | `client/` | `angular/src/app/AuxiliaryComponent/auxiliary.component.ts` | One server option, default to it, migrate saved value | Player uses our server with no setup | #13 | no |
 | `client/` | `angular/src/app/observer/observer.component.html` | Preview, map ban, support and player-cam controls wrapped in `@if (showSpectraExtras)` | Those run on ValoSpectra's closed servers; off for Trayb | #13, #17 | no |
+| `client/` | `src/main.ts` | Update check reads `TraybMain` (our releases API and download page) | Installed clients check our releases, not ValoSpectra's; dialog text says "Trayb Client" | #15 | no |
+| `client/` | `package.json` | `appId`, `productName` "Trayb Client", `artifactName`, `version` 0.3.4, `publish` → this repo | Trayb-branded installer that updates from our repo (`name` kept as upstream so `yarn.lock` stays valid) | #14, #15 | no |
+| `client/` | `build/installer.nsh` | Shortcut and exe names "Trayb Client" (match `productName`) | Otherwise the shortcuts point at a missing exe | #14 | no |

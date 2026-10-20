@@ -22,11 +22,16 @@
     "eu-extras.valospectra.com": 2,
     "eu.valospectra.com": 1
   },
+  "client/angular/src/app/trayb.config.ts": {
+    "eu.valospectra.com": 1,
+    "na.valospectra.com": 1,
+    "valospectra.com": 1
+  },
   "client/package.json": {
-    "www.valospectra.com": 2
+    "www.valospectra.com": 1
   },
   "client/src/main.ts": {
-    "valospectra.com": 2
+    "valospectra.com": 1
   },
   "frontend/README.md": {
     "valospectra.com": 2,

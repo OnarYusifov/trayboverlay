@@ -5,4 +5,5 @@ This folder is Spectra-Client by Purple Shark UG (https://github.com/ValoSpectra
 | Date | Change |
 |---|---|
 | 2026-10-21 | Imported at upstream `v0.3.4` (`a07fd08`). |
-| 2026-10-21 | Observer and player default to the Trayb server; a new `trayb.config.json`/`trayb.config.ts` holds our endpoints; ValoSpectra-only extras (map ban, player cams, stats, support) are hidden. See `docs/patches.md`. |
+| 2026-10-21 | Observer and player default to the Trayb server; a new `trayb.config.ts` holds our endpoints; ValoSpectra-only extras (map ban, player cams, stats, support) are hidden. See `docs/patches.md`. |
+| 2026-10-21 | Rebranded to "Trayb Client" (product name, app id, installer, icons pending); the update check reads this repo's releases; builds published from `.github/workflows/client-release.yml`. |

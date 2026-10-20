@@ -21,6 +21,7 @@ import {
 import HotkeyService, { HotkeyType } from "./services/hotkeyService";
 import axios from "axios";
 import * as semver from "semver";
+import { TraybMain } from "./trayb.config";
 import find, { ProcessInfo } from "find-process";
 // import { installExtension } from "electron-devtools-installer";
 
@@ -313,7 +314,7 @@ app.whenReady().then(async () => {
   createWindow();
   const updateAvailable = await updateCheck();
   if (updateAvailable) {
-    shell.openExternal(`https://valospectra.com/download`);
+    shell.openExternal(TraybMain.downloadUrl);
     app.quit();
     // return to not init overwolf
     return;
@@ -660,10 +661,8 @@ function nativeCheck() {
 
 async function updateCheck(): Promise<boolean> {
   try {
-    const versionData = (
-      await axios.get("https://api.github.com/repos/ValoSpectra/Spectra-Client/releases")
-    ).data[0];
-    const releaseVersion = versionData.tag_name.replace("v", "");
+    const versionData = (await axios.get(TraybMain.releasesApi)).data[0];
+    const releaseVersion = versionData.tag_name.replace(/^v/, "");
     const releaseName = versionData.name;
 
     const latestRelease = semver.valid(releaseVersion);
@@ -671,7 +670,7 @@ async function updateCheck(): Promise<boolean> {
 
     if (!latestRelease || !currentRelease) {
       messageBox(
-        "Spectra Client - Update Check Failed",
+        "Trayb Client - Update Check Failed",
         "The automatic update check failed - please manually check if a new version of the client is available!",
         messageBoxType.WARNING,
       );
@@ -686,8 +685,8 @@ async function updateCheck(): Promise<boolean> {
     if (semver.gt(latestRelease, currentRelease)) {
       log.info(`New client version available: ${latestRelease} (current: ${currentRelease})`);
       const button = messageBox(
-        "Spectra Client - Update Available",
-        `A new version of the Spectra Client is available. Please update to the latest version.\n\nCurrent version: ${currentRelease}\nLatest version: ${releaseName}`,
+        "Trayb Client - Update Available",
+        `A new version of the Trayb Client is available. Please update to the latest version.\n\nCurrent version: ${currentRelease}\nLatest version: ${releaseName}`,
         messageBoxType.WARNING,
         ["Update"],
       );
@@ -703,7 +702,7 @@ async function updateCheck(): Promise<boolean> {
     }
   } catch (error) {
     messageBox(
-      "Spectra Client - Update Check Failed",
+      "Trayb Client - Update Check Failed",
       "The automatic update check failed - please manually check if a new version of the client is available!",
       messageBoxType.WARNING,
     );

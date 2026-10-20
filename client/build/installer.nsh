@@ -75,18 +75,18 @@ Function ClientSelectionLeave
 FunctionEnd
 
 !macro customInstall
-      Delete "$SMPROGRAMS\Spectra Client.lnk"
-      Delete "$SMPROGRAMS\[Player] Spectra Client.lnk"
-      Delete "$DESKTOP\Spectra Client.lnk"
-      Delete "$DESKTOP\[Player] Spectra Client.lnk"
+      Delete "$SMPROGRAMS\Trayb Client.lnk"
+      Delete "$SMPROGRAMS\[Player] Trayb Client.lnk"
+      Delete "$DESKTOP\Trayb Client.lnk"
+      Delete "$DESKTOP\[Player] Trayb Client.lnk"
 
       ${If} $INST_OBSERVER == "1"
-        CreateShortCut "$SMPROGRAMS\Spectra Client.lnk" "$INSTDIR\Spectra Client.exe" ""
-        CreateShortCut "$DESKTOP\Spectra Client.lnk" "$INSTDIR\Spectra Client.exe" ""
+        CreateShortCut "$SMPROGRAMS\Trayb Client.lnk" "$INSTDIR\Trayb Client.exe" ""
+        CreateShortCut "$DESKTOP\Trayb Client.lnk" "$INSTDIR\Trayb Client.exe" ""
       ${EndIf}
 
       ${If} $INST_PLAYER == "1"
-        CreateShortCut "$SMPROGRAMS\[Player] Spectra Client.lnk" "$INSTDIR\Spectra Client.exe" "--auxiliary"
-        CreateShortCut "$DESKTOP\[Player] Spectra Client.lnk" "$INSTDIR\Spectra Client.exe" "--auxiliary"
+        CreateShortCut "$SMPROGRAMS\[Player] Trayb Client.lnk" "$INSTDIR\Trayb Client.exe" "--auxiliary"
+        CreateShortCut "$DESKTOP\[Player] Trayb Client.lnk" "$INSTDIR\Trayb Client.exe" "--auxiliary"
       ${EndIf}
 !macroend
