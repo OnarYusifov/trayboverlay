@@ -118,7 +118,8 @@ export class ConnectorService {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
-      rejectUnauthorized: false,
+      // Trayb: verify TLS; the Trayb server has a valid certificate (#16).
+      rejectUnauthorized: true,
     });
 
     this.ws.once("obs_logon_ack", (msg) => {
@@ -240,7 +241,8 @@ export class ConnectorService {
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
-      rejectUnauthorized: false,
+      // Trayb: verify TLS; the Trayb server has a valid certificate (#16).
+      rejectUnauthorized: true,
     });
 
     this.ws.once("aux_logon_ack", (msg) => {

@@ -538,8 +538,9 @@ function processInputs(
 
   const reconnectSecret = getMatchSecret();
 
+  // Trayb: don't log the access key in plaintext; just whether one was given (#16).
   log.info(
-    `Received Observer Name ${obsName}, Group Code ${groupCode}, Key ${key}, Left Tricode ${leftTeam.tricode}, Right Tricode ${rightTeam.tricode}`,
+    `Received Observer Name ${obsName}, Group Code ${groupCode}, Key ${key ? "[set]" : "[empty]"}, Left Tricode ${leftTeam.tricode}, Right Tricode ${rightTeam.tricode}`,
   );
   setSpectraStatus("Connecting", StatusTypes.YELLOW);
   connService.handleAuthProcess(
@@ -642,7 +643,8 @@ function nativeCheck() {
       );
       if (button === 0) {
         try {
-          process.kill(list[0].pid);
+          // Trayb: kill the matched process, not list[0], which may be a different entry (#16).
+          process.kill(p.pid);
           log.info("Killed Overwolf process");
         } catch (e) {
           log.error("Error killing Overwolf process:", e);
@@ -806,12 +808,13 @@ function getTraySetting() {
 }
 
 function restartToLatest() {
+  // Trayb: relaunch with the app's own bundled Overwolf packages. Upstream pointed
+  // --owepm-packages-url at a third-party domain (owepm.0008811.xyz), which would load
+  // native code we don't control; removed as a supply-chain risk (#16).
   const args: string[] = process.argv
     .slice(1)
     .filter((arg) => !arg.startsWith("--owepm-packages-url="));
-  app.relaunch({
-    args: args.concat([`--owepm-packages-url=https://owepm.0008811.xyz/latest`]),
-  });
+  app.relaunch({ args });
   app.exit();
 }
 
@@ -895,7 +898,18 @@ export function messageBox(
 }
 
 function openExternalLink(event: any, link: string) {
-  shell.openExternal(link);
+  // Trayb: only open web links. The renderer passes this string, so guard the scheme
+  // to keep it from launching file:, custom-protocol or other handlers (#16).
+  try {
+    const url = new URL(link);
+    if (url.protocol === "http:" || url.protocol === "https:") {
+      shell.openExternal(link);
+    } else {
+      log.warn(`Blocked openExternalLink with scheme ${url.protocol}`);
+    }
+  } catch {
+    log.warn("Blocked openExternalLink with an invalid URL");
+  }
 }
 
 // Renderer confirmed close of the app
