@@ -18,5 +18,6 @@ All client hooks read `client/angular/src/app/trayb.config.ts` (a new file, so i
 | `client/` | `src/main.ts` | Update check reads `TraybMain` (our releases API and download page) | Installed clients check our releases, not ValoSpectra's; dialog text says "Trayb Client" | #15 | no |
 | `client/` | `package.json` | `appId`, `productName` "Trayb Client", `artifactName`, `version` 0.3.4, `publish` → this repo | Trayb-branded installer that updates from our repo (`name` kept as upstream so `yarn.lock` stays valid) | #14, #15 | no |
 | `client/` | `build/installer.nsh` | Shortcut and exe names "Trayb Client" (match `productName`) | Otherwise the shortcuts point at a missing exe | #14 | no |
+| `client/` | `build/icon.ico`, `angular/public/assets/icon.{ico,webp}` | Replaced with the Trayb mark; added `angular/public/favicon.ico` | Trayb branding (icons) | #14 | no |
 | `client/` | `src/main.ts` | `restartToLatest` drops the `owepm.0008811.xyz` package URL; `openExternalLink` allows only http/https; Overwolf kill uses the matched `p.pid`; the access key is no longer logged in plaintext | Security hardening from the review | #16 | no |
 | `client/` | `src/services/connectorService.ts` | `rejectUnauthorized: true` at both ingest sites | Verify TLS so the org key can't be intercepted | #16 | no |
