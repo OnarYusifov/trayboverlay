@@ -19,6 +19,7 @@ import { ButtonModule, ButtonSeverity } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { HttpClient } from "@angular/common/http";
 import { LocalstorageService } from "../../services/localstorage.service";
+import { TraybConfig } from "../../trayb.config";
 
 @Component({
   selector: "app-observerinfo",
@@ -146,7 +147,7 @@ export class ObserverinfoComponent implements OnInit, Validatable, AfterContentI
   async getOrgForKey(key: string): Promise<{ valid: boolean; isSupporter: boolean }> {
     return new Promise((resolve) => {
       this.http
-        .get<OrgInfo>("https://eu.valospectra.com:5101/getOrgForKey", {
+        .get<OrgInfo>(`${TraybConfig.extrasEndpoint}/getOrgForKey`, {
           params: {
             key: key,
           },
@@ -185,7 +186,7 @@ export class ObserverinfoComponent implements OnInit, Validatable, AfterContentI
   //#endregion
 }
 
-export const ingestServerOptions = ["eu.valospectra.com", "na.valospectra.com"];
+export const ingestServerOptions = [TraybConfig.ingestServer];
 
 // Uppercase letters and digits, excluding I and O to avoid confusion with other characters
 const validGroupcodeCharacters = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";

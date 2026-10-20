@@ -3,10 +3,6 @@
     "valospectra.com": 1,
     "www.valospectra.com": 1
   },
-  "client/angular/src/app/AuxiliaryComponent/auxiliary.component.ts": {
-    "eu.valospectra.com": 1,
-    "na.valospectra.com": 1
-  },
   "client/angular/src/app/mapinfo/mapinfo.component.html": {
     "eu.valospectra.com": 4
   },
@@ -15,10 +11,6 @@
     "eu-extras.valospectra.com": 1,
     "auto.valospectra.com": 1,
     "valospectra.com": 1
-  },
-  "client/angular/src/app/observer/observerinfo/observerinfo.component.ts": {
-    "eu.valospectra.com": 2,
-    "na.valospectra.com": 1
   },
   "client/angular/src/app/playercams/playercams.component.ts": {
     "playercams.valospectra.com": 3

@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "file": "client/angular/src/app/trayb.config.ts",
+    "contains": "ingest.trayb.az",
+    "issue": 13
+  },
+  {
+    "file": "client/angular/src/app/observer/observerinfo/observerinfo.component.ts",
+    "contains": "TraybConfig.ingestServer",
+    "issue": 13
+  },
+  {
+    "file": "client/angular/src/app/observer/observer.component.ts",
+    "contains": "migrateIngest",
+    "issue": 13
+  },
+  {
+    "file": "client/angular/src/app/AuxiliaryComponent/auxiliary.component.ts",
+    "contains": "TraybConfig.ingestServer",
+    "issue": 13
+  }
+]

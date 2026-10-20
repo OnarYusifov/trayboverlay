@@ -7,6 +7,7 @@ import { ElectronService, Status, StatusTypes } from "../services/electron.servi
 import { ToggleSwitchChangeEvent, ToggleSwitchModule } from "primeng/toggleswitch";
 import { TagModule } from "primeng/tag";
 import { LocalstorageService } from "../services/localstorage.service";
+import { TraybConfig, migrateIngest } from "../trayb.config";
 import { ButtonModule } from "primeng/button";
 import { TitleCasePipe } from "@angular/common";
 import { ToastModule } from "primeng/toast";
@@ -51,8 +52,9 @@ export class AuxiliaryComponent implements OnInit {
       element!.classList.add("dark");
     }
 
-    this.ingestServerIp =
-      this.localStorageService.getItem<string>("auxIngestServerIp") ?? undefined;
+    this.ingestServerIp = migrateIngest(
+      this.localStorageService.getItem<string>("auxIngestServerIp"),
+    );
 
     const minimizedToTraySettingLoaded = this.localStorageService.getItem<boolean>(
       "auxMinimizedToTraySetting",
@@ -85,8 +87,8 @@ export class AuxiliaryComponent implements OnInit {
     });
   }
 
-  protected ingestServerOptions: string[] = ["EU Server", "NA Server"];
-  protected ingestServerIp: string | undefined = undefined;
+  protected ingestServerOptions: string[] = [TraybConfig.ingestServer];
+  protected ingestServerIp: string | undefined = TraybConfig.ingestServer;
   protected playername: string = "";
   protected minimizedToTraySetting: boolean = true;
 
@@ -105,12 +107,7 @@ export class AuxiliaryComponent implements OnInit {
       return;
     }
 
-    let ingestIp = this.ingestServerIp;
-    if (ingestIp == this.ingestServerOptions[0]) {
-      ingestIp = "eu.valospectra.com";
-    } else if (ingestIp == this.ingestServerOptions[1]) {
-      ingestIp = "na.valospectra.com";
-    }
+    const ingestIp = migrateIngest(this.ingestServerIp);
     this.electron.processAuxInputs(ingestIp, this.playername);
 
     this.localStorageService.setItem("auxIngestServerIp", this.ingestServerIp);

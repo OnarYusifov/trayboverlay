@@ -16,6 +16,7 @@ import { MapinfoComponent } from "../mapinfo/mapinfo.component";
 import { HotkeysComponent } from "../hotkeys/hotkeys.component";
 import { LocalstorageService } from "../services/localstorage.service";
 import { ObserverinfoComponent, ingestServerOptions } from "./observerinfo/observerinfo.component";
+import { TraybConfig, migrateIngest } from "../trayb.config";
 import { SplitButtonModule } from "primeng/splitbutton";
 import { PopoverModule } from "primeng/popover";
 import { TitleCasePipe } from "@angular/common";
@@ -81,6 +82,7 @@ export class ObserverComponent implements OnInit {
   protected tryingToConnect: boolean = false;
 
   protected isSupporter: boolean = false;
+  protected showSpectraExtras: boolean = TraybConfig.showSpectraExtras;
 
   protected drawerVisible: boolean = false;
   protected checklistItems: MenuItem[] = [
@@ -203,7 +205,7 @@ export class ObserverComponent implements OnInit {
     name: "",
     key: "",
     groupCode: "",
-    ingestIp: undefined,
+    ingestIp: TraybConfig.ingestServer,
   };
 
   protected leftTeamInfo: TeamInfo = {
@@ -320,6 +322,8 @@ export class ObserverComponent implements OnInit {
     }
 
     this.basicInfo = this.localStorageService.getItem<BasicInfo>("basicInfo") || this.basicInfo;
+    // Point a saved config from an old Spectra install at our server.
+    this.basicInfo.ingestIp = migrateIngest(this.basicInfo.ingestIp);
 
     this.leftTeamInfo =
       this.localStorageService.getItem<TeamInfo>("leftTeamInfo") || this.leftTeamInfo;
@@ -802,7 +806,7 @@ export class ObserverComponent implements OnInit {
   }
 
   copyToClipboardClick() {
-    const link = `https://${this.basicInfo.ingestIp}/overlay?groupCode=${this.basicInfo.groupCode}`;
+    const link = `${TraybConfig.overlayBaseUrl}/overlay?groupCode=${this.basicInfo.groupCode}`;
     navigator.clipboard.writeText(link);
   }
 

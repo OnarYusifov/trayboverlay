@@ -78,25 +78,27 @@
         </p-popover>
       </p-button>
     }
-    <p-button
-      fluid
-      label="Open Overlay Preview (🔑)"
-      icon="pi pi-eye"
-      class="w-full"
-      severity="primary"
-      [disabled]="!editable"
-      [loading]="tryingToConnect"
-      (onClick)="onPreviewClick()"
-    />
-    <p-button
-      fluid
-      label="Start Mapban Session (🔑)"
-      icon="pi pi-map"
-      class="w-full"
-      severity="primary"
-      [loading]="tryingToConnect"
-      (onClick)="onMapbanClick()"
-    />
+    @if (showSpectraExtras) {
+      <p-button
+        fluid
+        label="Open Overlay Preview (🔑)"
+        icon="pi pi-eye"
+        class="w-full"
+        severity="primary"
+        [disabled]="!editable"
+        [loading]="tryingToConnect"
+        (onClick)="onPreviewClick()"
+      />
+      <p-button
+        fluid
+        label="Start Mapban Session (🔑)"
+        icon="pi pi-map"
+        class="w-full"
+        severity="primary"
+        [loading]="tryingToConnect"
+        (onClick)="onMapbanClick()"
+      />
+    }
   </div>
 </p-dialog>
 
@@ -207,13 +209,15 @@
   </blockable-div>
 
   <div class="border-surface relative col-span-3 flex flex-col rounded-lg border p-5">
-    <p-button
-      class="absolute h-10 self-start"
-      [severity]="!isSupporter ? 'success' : 'help'"
-      icon="pi pi-heart-fill"
-      [label]="!isSupporter ? 'Support Us!' : 'Thank you!'"
-      (onClick)="openSupportUs()"
-    />
+    @if (showSpectraExtras) {
+      <p-button
+        class="absolute h-10 self-start"
+        [severity]="!isSupporter ? 'success' : 'help'"
+        icon="pi pi-heart-fill"
+        [label]="!isSupporter ? 'Support Us!' : 'Thank you!'"
+        (onClick)="openSupportUs()"
+      />
+    }
     <div class="absolute flex gap-2 self-end">
       <p-button
         class="h-10 w-10"
@@ -435,16 +439,18 @@
     ></app-watermark>
   </blockable-div>
 
-  <blockable-div class="col-span-3" #playercams_panel>
-    <p-block-ui [target]="playercams_panel" [blocked]="!editable" />
-    <app-playercams
-      id="playercamsPanelId"
-      [data]="playercamsInfo"
-      [key]="basicInfo.key"
-      class="col-span-3"
-      (validationChanged)="onPanelValidationChanged($event, 'playercamsPanelId')"
-    ></app-playercams>
-  </blockable-div>
+  @if (showSpectraExtras) {
+    <blockable-div class="col-span-3" #playercams_panel>
+      <p-block-ui [target]="playercams_panel" [blocked]="!editable" />
+      <app-playercams
+        id="playercamsPanelId"
+        [data]="playercamsInfo"
+        [key]="basicInfo.key"
+        class="col-span-3"
+        (validationChanged)="onPanelValidationChanged($event, 'playercamsPanelId')"
+      ></app-playercams>
+    </blockable-div>
+  }
 
   <app-options id="optionsPanelId" class="col-span-3"></app-options>
 </div>
