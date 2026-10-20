@@ -23,9 +23,9 @@ The DNS records are proxied through Cloudflare (orange cloud), like `server.tray
 
 ## First setup in Dokploy (once)
 
-1. **Images:** the first `images.yml` run creates the two GHCR packages. They must be public so the VPS can pull them without credentials: github.com/OnarYusifov → Packages → each package → Package settings → Change visibility → Public. The source is already public.
+1. **Images:** `images.yml` publishes the two GHCR packages. They inherit the repo's public visibility, so the VPS pulls them without credentials (checked 21 October). If a pull ever fails with `denied`, check github.com/OnarYusifov → Packages → the package → Package settings.
 2. **Project and app:** Create project `trayboverlay`, then Create Service → Compose.
-   - Provider: GitHub (`OnarYusifov/trayboverlay`, branch `main`), or Git with `https://github.com/OnarYusifov/trayboverlay.git`.
+   - Provider: Git with `https://github.com/OnarYusifov/trayboverlay.git`, branch `main`. The repo is public, so no GitHub app access is needed.
    - Compose path: `./deploy/compose.yaml`.
    - Auto-deploy off. Deploys are by hand, outside broadcasts.
 3. **Environment tab:** the values from `deploy/.env.example`:
