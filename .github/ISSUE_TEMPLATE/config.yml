@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: How to file and triage issues
+    url: https://github.com/OnarYusifov/trayboverlay/blob/main/CONTRIBUTING.md
+    about: Labels, priorities and how work flows through issues.
+  - name: Pulling upstream updates
+    url: https://github.com/OnarYusifov/trayboverlay/blob/main/docs/upstream-sync.md
+    about: How server/, client/ and frontend/ are kept in sync with upstream.

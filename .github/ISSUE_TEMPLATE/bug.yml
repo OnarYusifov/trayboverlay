@@ -1,0 +1,47 @@
+name: Bug
+description: Something is broken in the client, server or overlay
+title: "Bug: "
+labels: ["type: bug", "status: needs-triage"]
+body:
+  - type: dropdown
+    id: env
+    attributes:
+      label: Environment
+      options: [staging, prod, dev]
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      multiple: true
+      options: [client (observer), client (player), server, overlay, deploy]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw. Include the group code, the overlay URL or the client version involved.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start the observer client
+        2. Connect with group code ...
+        3. ...
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Client log (%APPDATA%), server container logs or screenshots. Remove keys and tokens.
+      render: text

@@ -1,0 +1,32 @@
+name: Task
+description: A piece of work to do (feature, config change, setup, upstream sync)
+labels: ["type: task", "status: needs-triage"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should be true when this is done, and why.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: A checklist that proves it's finished.
+      placeholder: |
+        - [ ] ...
+        - [ ] Upstream files touched are listed in docs/patches.md
+        - [ ] Tested on staging
+    validations:
+      required: true
+  - type: input
+    id: deadline
+    attributes:
+      label: Deadline
+      placeholder: "e.g. 2026-11-01, or none"
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Links, constraints, related issues (#N).

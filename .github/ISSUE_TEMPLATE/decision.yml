@@ -1,0 +1,29 @@
+name: Decision
+description: A choice that must be made before work can continue
+title: "Decide: "
+labels: ["type: decision", "status: needs-triage"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What needs deciding, and what it blocks.
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options
+      description: Each option with its trade-offs. Mark a recommendation if there is one.
+    validations:
+      required: true
+  - type: input
+    id: deadline
+    attributes:
+      label: Decide by
+      placeholder: "e.g. 2026-11-01"
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: Filled in when decided. Also record it in docs/decisions.md.
