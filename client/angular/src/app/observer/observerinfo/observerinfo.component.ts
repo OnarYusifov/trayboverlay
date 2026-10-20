@@ -37,6 +37,7 @@ import { TraybConfig } from "../../trayb.config";
 })
 export class ObserverinfoComponent implements OnInit, Validatable, AfterContentInit {
   protected ingestServerOptions: string[] = ingestServerOptions;
+  protected showKeyValidation: boolean = TraybConfig.showKeyValidation;
 
   protected validatingKey: boolean = false;
   protected keyChangedWhileValidating: boolean = false;

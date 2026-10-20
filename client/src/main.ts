@@ -114,7 +114,7 @@ const createWindow = () => {
     resizable: !isAuxiliary,
     fullscreenable: false,
     icon: iconPath,
-    title: "Spectra Client",
+    title: "Trayb Client",
     show: false,
   });
 
@@ -380,7 +380,7 @@ function createTray(iconPath: string) {
     return;
   }
   tray = new Tray(iconPath);
-  tray.setToolTip("Spectra Client");
+  tray.setToolTip("Trayb Client");
   log.info(
     "Creating system tray icon (traySetting=" +
       traySetting +
@@ -435,7 +435,7 @@ function processInputs(
     if (leftTeam.name === "" || leftTeam.tricode === "" || leftTeam.url === "") {
       if (rightTeam.name === "" || rightTeam.tricode === "" || rightTeam.url === "") {
         messageBox(
-          "Spectra Client - Error",
+          "Trayb Client - Error",
           "Please input data into all fields!",
           messageBoxType.ERROR,
         );
@@ -452,7 +452,7 @@ function processInputs(
         rightTeam.url == undefined
       ) {
         messageBox(
-          "Spectra Client - Error",
+          "Trayb Client - Error",
           "Please input data into all fields!",
           messageBoxType.ERROR,
         );
@@ -484,7 +484,7 @@ function processInputs(
 
     if (!allow) {
       messageBox(
-        "Spectra Client - Error",
+        "Trayb Client - Error",
         "Please input data into all fields!",
         messageBoxType.ERROR,
       );
@@ -528,7 +528,7 @@ function processInputs(
       hotkeys.enabled.showToast,
     );
   } catch (error: any) {
-    messageBox("Spectra Client - Error", error.message, messageBoxType.ERROR);
+    messageBox("Trayb Client - Error", error.message, messageBoxType.ERROR);
     return;
   }
 
@@ -572,7 +572,7 @@ function processConfigDrop(_event: any, filePath: string) {
   log.info(`Reading config data from ${filePath}`);
   if (!filePath.endsWith(".scg")) {
     messageBox(
-      "Spectra Client - Error",
+      "Trayb Client - Error",
       "Invalid file type! Please drop a .scg file",
       messageBoxType.ERROR,
     );
@@ -581,7 +581,7 @@ function processConfigDrop(_event: any, filePath: string) {
   }
   if (connService.isConnected()) {
     messageBox(
-      "Spectra Client - Error",
+      "Trayb Client - Error",
       "Cannot change config while connected!",
       messageBoxType.ERROR,
     );
@@ -593,12 +593,12 @@ function processConfigDrop(_event: any, filePath: string) {
     if (validateSpectraConfig(data)) {
       win.webContents.send("load-config", data);
     } else {
-      messageBox("Spectra Client - Error", "Invalid Spectra Config!", messageBoxType.ERROR);
+      messageBox("Trayb Client - Error", "Invalid Spectra Config!", messageBoxType.ERROR);
       log.info(`Aborting config change - invalid config`);
       return;
     }
   } catch (e) {
-    messageBox("Spectra Client - Error", "Could not parse Spectra Config!", messageBoxType.ERROR);
+    messageBox("Trayb Client - Error", "Could not parse Spectra Config!", messageBoxType.ERROR);
     log.error(`Error reading config file: ${e}`);
     return;
   }
@@ -636,7 +636,7 @@ function nativeCheck() {
       if (p.name !== "Overwolf.exe") continue;
       log.info(`Found Overwolf process with PID ${p.pid}`);
       const button = messageBox(
-        "Spectra Client - Overwolf GEP Conflict",
+        "Trayb Client - Overwolf GEP Conflict",
         "Regular Overwolf is running!\nIf you continue without stopping Overwolf, the risk of experiencing issues with game data is increased.\n\nDo you want Spectra to stop regular Overwolf now?",
         messageBoxType.WARNING,
         ["Stop Overwolf", "Continue with added risk"],
@@ -649,7 +649,7 @@ function nativeCheck() {
         } catch (e) {
           log.error("Error killing Overwolf process:", e);
           messageBox(
-            "Spectra Client - Failed to stop Overwolf",
+            "Trayb Client - Failed to stop Overwolf",
             "Failed to automatically stop Overwolf.\nPlease manually close Overwolf by right-clicking the Overwolf icon in the tray and selecting 'Exit Overwolf'.",
             messageBoxType.ERROR,
           );
@@ -766,7 +766,7 @@ export enum StatusTypes {
 }
 export function setSpectraStatus(message: string, type: StatusTypes = StatusTypes.NEUTRAL) {
   win.webContents.send("set-spectra-status", { message: message, statusType: type });
-  win.setTitle(`Spectra Client | ${message}`);
+  win.setTitle(`Trayb Client | ${message}`);
 }
 
 export function setGameStatus(message: string, type: StatusTypes = StatusTypes.NEUTRAL) {

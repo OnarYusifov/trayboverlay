@@ -106,7 +106,7 @@ export class GameEventsService {
 
       setTimeout(() => {
         this.win!.setTitle(
-          `Spectra Client | Ready (GEP: ${version}, Spectra: ${app.getVersion()})`,
+          `Trayb Client | Ready (GEP: ${version}, Trayb: ${app.getVersion()})`,
         );
         setLoadingStatus(false);
       }, 300);

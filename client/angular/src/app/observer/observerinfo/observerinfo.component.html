@@ -7,7 +7,7 @@
   </p-floatlabel>
 
   <div class="flex flex-row gap-2">
-    <p-floatlabel variant="on" class="w-2/3">
+    <p-floatlabel variant="on" [class]="showKeyValidation ? 'w-2/3' : 'w-full'">
       <p-password
         fluid
         [(ngModel)]="data.key"
@@ -16,27 +16,29 @@
         [toggleMask]="true"
         id="KeyInput"
         autocomplete="off"
-        pTooltip="Using our official servers requires a key. You can get one on our Discord."
+        pTooltip="The access key for the Trayb server (your AUTH_KEY)."
         tooltipPosition="top"
         showDelay="500"
       />
-      <label for="KeyInput">Organization Key</label>
+      <label for="KeyInput">Access Key</label>
     </p-floatlabel>
-    <p-button
-      class="w-1/3"
-      styleClass="w-full"
-      [icon]="validationButtonIcon"
-      [label]="validationButtonLabel"
-      [severity]="validationButtonSeverity"
-      (onClick)="validateAccessKey()"
-      [loading]="validatingKey"
-      [badge]="
-        debouncer.running && validationButtonSeverity == 'secondary' && !validatingKey
-          ? debouncer.timer + ''
-          : ''
-      "
-      [disabled]="debouncer.running && validationButtonSeverity == 'secondary' && !validatingKey"
-    ></p-button>
+    @if (showKeyValidation) {
+      <p-button
+        class="w-1/3"
+        styleClass="w-full"
+        [icon]="validationButtonIcon"
+        [label]="validationButtonLabel"
+        [severity]="validationButtonSeverity"
+        (onClick)="validateAccessKey()"
+        [loading]="validatingKey"
+        [badge]="
+          debouncer.running && validationButtonSeverity == 'secondary' && !validatingKey
+            ? debouncer.timer + ''
+            : ''
+        "
+        [disabled]="debouncer.running && validationButtonSeverity == 'secondary' && !validatingKey"
+      ></p-button>
+    }
   </div>
   <div class="flex flex-row gap-2">
     <p-floatlabel variant="on" class="w-2/3">
