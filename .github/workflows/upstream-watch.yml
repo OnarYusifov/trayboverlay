@@ -1,0 +1,32 @@
+name: Upstream watch
+
+# Every Monday: for each folder, merge the upstream branch head into a sync branch.
+# A clean merge opens a PR; a conflict opens an issue. See docs/upstream-sync.md.
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898729+github-actions[bot]@users.noreply.github.com"
+      - run: node scripts/sync-upstream.mjs --status
+      - run: node scripts/sync-upstream.mjs --ci
+        env:
+          GH_TOKEN: ${{ github.token }}

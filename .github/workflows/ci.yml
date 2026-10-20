@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: "0" # upstream prepare scripts install husky hooks; not wanted in CI
+  YARN_IGNORE_PATH: "1" # frontend/.yarnrc.yml points at a Yarn binary that isn't committed
+
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-trayb.mjs
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - component: server
+            build: yarn build
+          - component: frontend
+            build: yarn build
+          # Compile only; installers are built on Windows by the client release workflow.
+          - component: client
+            build: yarn workspace angular build && yarn tsc
+    defaults:
+      run:
+        working-directory: ${{ matrix.component }}
+    name: build (${{ matrix.component }})
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: corepack enable
+      # skip-build: the client's postinstall rebuilds native modules for Electron, which CI doesn't need
+      - run: yarn install --immutable --mode=skip-build
+      - run: ${{ matrix.build }}
