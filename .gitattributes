@@ -4,5 +4,11 @@
 /scripts/** text eol=lf
 /deploy/** text eol=lf
 /docs/** text eol=lf
+# Binary assets under docs keep their exact bytes; the text rule above would corrupt them.
+/docs/**/*.png binary
+/docs/**/*.jpg binary
+/docs/**/*.jpeg binary
+/docs/**/*.webp binary
+/docs/**/*.gif binary
 /.github/** text eol=lf
 /upstream.lock.json text eol=lf

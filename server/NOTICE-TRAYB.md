@@ -5,3 +5,4 @@ This folder is Spectra-Server by Purple Shark UG (https://github.com/ValoSpectra
 | Date | Change |
 |---|---|
 | 2026-10-21 | Imported at upstream `main` `64782ac`. No source changes yet. |
+| 2026-10-21 | `Match.ts` honours `TRAYB_SUPPORTER=true` to enable the supporter features on this self-hosted server, allowed in writing by ValoSpectra (#20). See `docs/patches.md`. |

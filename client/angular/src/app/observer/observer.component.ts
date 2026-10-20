@@ -81,7 +81,8 @@ export class ObserverComponent implements OnInit {
   protected editable: boolean = true;
   protected tryingToConnect: boolean = false;
 
-  protected isSupporter: boolean = false;
+  // Trayb hook (#20): config forces the supporter UI on; a backend key check can't turn it off.
+  protected isSupporter: boolean = TraybConfig.supporter;
   protected showSpectraExtras: boolean = TraybConfig.showSpectraExtras;
 
   protected drawerVisible: boolean = false;
@@ -826,7 +827,8 @@ export class ObserverComponent implements OnInit {
   }
 
   protected onIsSupporterChanged(newState: boolean) {
-    this.isSupporter = newState;
+    // Trayb hook (#20): never drop below the configured supporter state (TraybConfig.supporter).
+    this.isSupporter = newState || TraybConfig.supporter;
   }
 
   protected onMidMatchClick() {

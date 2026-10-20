@@ -13,6 +13,10 @@ export const TraybConfig = {
   // Spectra extras that run on ValoSpectra's closed servers (map ban, player cams,
   // stats breakdowns, support page). Off for Trayb (#17); their buttons are hidden.
   showSpectraExtras: false,
+  // Unlock the supporter UI (custom watermark text, multiple round-win sponsors) without a
+  // backend supporter check. Allowed by ValoSpectra for self-hosting (#20); matches the
+  // server's TRAYB_SUPPORTER. See docs/decisions.md.
+  supporter: true,
 };
 
 // A saved ingest value from an old Spectra install, migrated to our server on load.
