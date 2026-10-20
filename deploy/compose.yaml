@@ -23,6 +23,8 @@ services:
       REQUIRE_AUTH_KEY: "true"
       # Observer key: letters and digits only. Required; the server would accept a missing key otherwise (#12).
       AUTH_KEY: ${AUTH_KEY:?set AUTH_KEY (observer key, letters and digits)}
+      # Enable the supporter features on this self-hosted server (#20, allowed by ValoSpectra; see docs/decisions.md).
+      TRAYB_SUPPORTER: ${TRAYB_SUPPORTER:-true}
     volumes:
       - replays:/app/replays
     networks:

@@ -89,7 +89,10 @@ export class Match {
     this.teams.push(firstTeam);
     this.teams.push(secondTeam);
 
-    this.orgIsSupporter = data.isSupporter || false;
+    // Trayb hook (#20): a self-hosted server can't check supporter status against ValoSpectra's
+    // backend, so TRAYB_SUPPORTER=true enables the supporter features. Allowed in writing by
+    // ValoSpectra (docs/decisions.md). This is the single point the four gated features key off.
+    this.orgIsSupporter = data.isSupporter || process.env.TRAYB_SUPPORTER === "true" || false;
 
     // Add Spectra logo to sponsors if enabled and not a supporter
     if (this.tools.sponsorInfo.enabled && !this.orgIsSupporter) {
