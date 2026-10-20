@@ -4,6 +4,9 @@ Why things are the way they are. Newest first. Each decision links its issue.
 
 | Decision | Why |
 |---|---|
+| **Images are built in GitHub Actions and pulled from GHCR** (21 October, #9). Dokploy only pulls them, with `pull_policy: always`. | The shared VPS runs other production apps. An Angular build takes GBs of RAM and minutes of CPU there, and pulling a prebuilt image doesn't. It also gives `sha-<7>` tags for rollbacks. |
+| **The four overlay domains go through Cloudflare's proxy** (21 October, #10), like `server.trayb.az`. | Same setup as the panel, origin IP stays hidden, WebSockets work through the proxy. |
+| **The Gekko case-collision fix isn't sent upstream** (21 October, #4). | Onar's call. It stays a local patch in `docs/patches.md`; the guard keeps new collisions out. |
 | **The sync tool is a Node script** (`scripts/sync-upstream.mjs`), not PowerShell (21 October, #2). | The weekly GitHub watcher runs the same script on Linux that we run on Windows. |
 | **The server is imported at `main` `64782ac`, not tag `v0.3.5`** (21 October, #1). | `main` is `v0.3.5` plus one fix: the correct in-game name for the BattleRiffle. |
 | **One public monorepo with three `git subtree`s, full history, no squash** (21 October, #1). | One place for issues, CI and deploys. Full history keeps `git log` and blame useful and lets us send fixes upstream. Public covers the client's GPL source requirement. |

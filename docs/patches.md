@@ -6,4 +6,4 @@ New files we add inside the folders (`NOTICE-TRAYB.md`) aren't listed, because t
 
 | Folder | Upstream file | Change | Why | Issue | Sent upstream |
 |---|---|---|---|---|---|
-| `frontend/` | `public/assets/{ability1,ability2,grenades,ultimates}/Aggrobot*.webp` | Removed (identical copies of the `AggroBot*` files) | Paths that differ only in letter case break Windows checkouts and Linux builds | #4 | not yet |
+| `frontend/` | `public/assets/{ability1,ability2,grenades,ultimates}/Aggrobot*.webp` | Removed (identical copies of the `AggroBot*` files) | Paths that differ only in letter case break Windows checkouts and Linux builds | #4 | no (Onar's call, 21 October) |
