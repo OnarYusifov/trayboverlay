@@ -1,0 +1,56 @@
+{
+  "client/README.md": {
+    "valospectra.com": 1,
+    "www.valospectra.com": 1
+  },
+  "client/angular/src/app/AuxiliaryComponent/auxiliary.component.ts": {
+    "eu.valospectra.com": 1,
+    "na.valospectra.com": 1
+  },
+  "client/angular/src/app/mapinfo/mapinfo.component.html": {
+    "eu.valospectra.com": 4
+  },
+  "client/angular/src/app/observer/observer.component.ts": {
+    "mapban.valospectra.com": 2,
+    "eu-extras.valospectra.com": 1,
+    "auto.valospectra.com": 1,
+    "valospectra.com": 1
+  },
+  "client/angular/src/app/observer/observerinfo/observerinfo.component.ts": {
+    "eu.valospectra.com": 2,
+    "na.valospectra.com": 1
+  },
+  "client/angular/src/app/playercams/playercams.component.ts": {
+    "playercams.valospectra.com": 3
+  },
+  "client/angular/src/app/sponsor/sponsor.component.html": {
+    "auto.valospectra.com": 1
+  },
+  "client/angular/src/app/supportus/supportus.component.ts": {
+    "eu-extras.valospectra.com": 2,
+    "eu.valospectra.com": 1
+  },
+  "client/package.json": {
+    "www.valospectra.com": 2
+  },
+  "client/src/main.ts": {
+    "valospectra.com": 2
+  },
+  "frontend/README.md": {
+    "valospectra.com": 2,
+    "www.valospectra.com": 1
+  },
+  "frontend/package.json": {
+    "valospectra.com": 1
+  },
+  "frontend/public/assets/config/config.json": {
+    "na.valospectra.com": 1,
+    "valospectra.com": 1
+  },
+  "frontend/src/app/shared/config.ts": {
+    "valospectra.com": 1,
+    "mapban-socket.valospectra.com": 1,
+    "stats.valospectra.com": 1,
+    "eu-extras.valospectra.com": 1
+  }
+}
