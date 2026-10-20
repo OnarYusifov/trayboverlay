@@ -1,0 +1,8 @@
+# Our own files and every shell script use LF: they run in Linux containers and CI.
+# Upstream files keep whatever upstream committed, so syncs don't fight over line endings.
+*.sh text eol=lf
+/scripts/** text eol=lf
+/deploy/** text eol=lf
+/docs/** text eol=lf
+/.github/** text eol=lf
+/upstream.lock.json text eol=lf

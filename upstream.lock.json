@@ -1,0 +1,24 @@
+{
+  "server": {
+    "remote": "upstream-server",
+    "url": "https://github.com/ValoSpectra/Spectra-Server.git",
+    "branch": "main",
+    "ref": "main",
+    "commit": "64782ac2dcd5863aa179a084c8f402c3be794ebe",
+    "note": "v0.3.5 plus the BattleRiffle name fix"
+  },
+  "client": {
+    "remote": "upstream-client",
+    "url": "https://github.com/ValoSpectra/Spectra-Client.git",
+    "branch": "main",
+    "ref": "v0.3.4",
+    "commit": "a07fd0853129a549ac4d657544ae1e0b93e4f5e8"
+  },
+  "frontend": {
+    "remote": "upstream-frontend",
+    "url": "https://github.com/nobiiVAL/Spectra-Frontend-VAL26.git",
+    "branch": "master",
+    "ref": "master",
+    "commit": "938cf707da7431d1bc3a70164a662bff3597ecbf"
+  }
+}
