@@ -22,6 +22,8 @@ node scripts/sync-upstream.mjs --continue        # after resolving a sync confli
 
 Each component builds from its own folder with Yarn 4 (`corepack enable` first): server `yarn build`, frontend `yarn build`, client `yarn workspace angular build && yarn tsc` (installers: `yarn build` on Windows). CI sets `HUSKY=0` and `YARN_IGNORE_PATH=1`.
 
+Deploy (`docs/operations.md`): pushing to `main` builds the server and overlay images in `.github/workflows/images.yml` (GHCR, tags `main` and `sha-<7>`). Then press Deploy on the `trayboverlay` compose app in Dokploy (`deploy/compose.yaml`). The VPS never builds. Run the stack locally with `docker compose -f deploy/compose.yaml -f deploy/compose.build.yaml --env-file deploy/.env up -d --build`.
+
 ## Rules
 
 - **Every job needs a GitHub issue first**, triaged per `CONTRIBUTING.md`. Reference it in commits (`Refs #N`, `Closes #N`).

@@ -53,6 +53,7 @@ cd client && yarn install && yarn start                               # observer
 
 ## Docs
 
+- [docs/operations.md](docs/operations.md): deploying to Dokploy, checks, rollback, running the stack locally
 - [docs/upstream-sync.md](docs/upstream-sync.md): pulling upstream updates safely
 - [docs/patches.md](docs/patches.md): every change we made to upstream files
 - [docs/upstream-review.md](docs/upstream-review.md): what each upstream repo does, its config, hosts and risks
