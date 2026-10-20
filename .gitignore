@@ -1,0 +1,3 @@
+# Local env files with real values
+.env
+deploy/.env

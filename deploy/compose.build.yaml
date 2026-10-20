@@ -1,0 +1,18 @@
+# Local builds instead of GHCR images:
+#   docker compose -f deploy/compose.yaml -f deploy/compose.build.yaml --env-file deploy/.env up --build
+# Not used in Dokploy, so the shared VPS never runs a build.
+
+services:
+  server:
+    image: trayboverlay-server:local
+    pull_policy: build
+    build:
+      context: ..
+      dockerfile: deploy/server.Dockerfile
+
+  frontend:
+    image: trayboverlay-frontend:local
+    pull_policy: build
+    build:
+      context: ..
+      dockerfile: deploy/frontend.Dockerfile

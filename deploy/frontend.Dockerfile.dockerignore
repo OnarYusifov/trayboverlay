@@ -1,0 +1,7 @@
+*
+!frontend/
+!deploy/frontend/
+frontend/node_modules
+frontend/dist
+frontend/.angular
+frontend/src/environments/environment.dev.ts

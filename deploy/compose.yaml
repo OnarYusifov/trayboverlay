@@ -1,0 +1,71 @@
+# trayboverlay stack: Spectra server + VAL26 overlay. The same file runs in Dokploy and locally.
+# Only the env differs (see .env.example). Images are built by .github/workflows/images.yml and
+# pulled from GHCR, so the shared VPS never runs a build. Local builds: add compose.build.yaml.
+#
+#   server          ingest :5100, REST extras :5101, overlay socket :5200 (all plain HTTP/WS;
+#                   TLS ends at Traefik)
+#   frontend        the overlay page (nginx :80); writes its config.json from env on start
+#   replay-cleanup  deletes match replays older than REPLAY_RETENTION_DAYS
+#
+# Domains are set in Dokploy (docs/operations.md):
+#   ingest.trayb.az  -> server:5100     extras.trayb.az  -> server:5101
+#   data.trayb.az    -> server:5200     overlay.trayb.az -> frontend:80
+
+name: ${STACK_NAME:-trayboverlay}
+
+services:
+  server:
+    image: ${IMAGE_REGISTRY:-ghcr.io/onaryusifov}/trayboverlay-server:${IMAGE_TAG:-main}
+    pull_policy: ${PULL_POLICY:-always}
+    restart: unless-stopped
+    environment:
+      INSECURE: "true"
+      REQUIRE_AUTH_KEY: "true"
+      # Observer key: letters and digits only. Required; the server would accept a missing key otherwise (#12).
+      AUTH_KEY: ${AUTH_KEY:?set AUTH_KEY (observer key, letters and digits)}
+    volumes:
+      - replays:/app/replays
+    networks:
+      - platform
+    # Hard cap (shared host). Match state lives in memory; 512 MB is plenty for a few live matches.
+    mem_limit: ${SERVER_MEM_LIMIT:-512m}
+    stop_grace_period: 10s
+
+  frontend:
+    image: ${IMAGE_REGISTRY:-ghcr.io/onaryusifov}/trayboverlay-frontend:${IMAGE_TAG:-main}
+    pull_policy: ${PULL_POLICY:-always}
+    restart: unless-stopped
+    environment:
+      SERVER_ENDPOINT: ${OVERLAY_SERVER_ENDPOINT:-https://data.trayb.az}
+      EXTRAS_ENDPOINT: ${OVERLAY_EXTRAS_ENDPOINT:-https://extras.trayb.az}
+      REDIRECT_URL: ${OVERLAY_REDIRECT_URL:-https://trayb.az}
+    networks:
+      - platform
+    mem_limit: ${FRONTEND_MEM_LIMIT:-64m}
+
+  replay-cleanup:
+    image: alpine:3.22
+    restart: unless-stopped
+    network_mode: none
+    environment:
+      DAYS: ${REPLAY_RETENTION_DAYS:-14}
+    volumes:
+      - replays:/replays
+    command:
+      - /bin/sh
+      - -c
+      - |
+        while true; do
+          find /replays -name '*.replay' -type f -mtime +"$$DAYS" -print -delete
+          sleep 86400
+        done
+    mem_limit: 16m
+
+networks:
+  # Dokploy: dokploy-network (Traefik reaches the services there). Locally: any network you create.
+  platform:
+    external: true
+    name: ${PLATFORM_NETWORK:-trayboverlay-dev}
+
+volumes:
+  replays:

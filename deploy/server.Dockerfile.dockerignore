@@ -1,0 +1,8 @@
+*
+!server/
+server/node_modules
+server/dist
+server/replays
+server/logs
+server/keys
+server/.env*
