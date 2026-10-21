@@ -62,3 +62,13 @@ docker compose -f deploy/compose.yaml -f deploy/compose.build.yaml --env-file de
 ```
 
 Nothing is published to the host. Test from a container on the `trayboverlay-dev` network (`http://server:5100`, `http://frontend/`).
+
+## Branding the overlay (Trayb)
+
+The overlay renders whatever the observer client sends, so Trayb branding is set there, not in the overlay code — and it never covers the Spectra watermark because it uses the same regions the overlay already has (#19):
+
+- **Watermark text:** in the observer client, the Watermark panel (unlocked as a supporter, #20) sets custom text, e.g. "Powered by Trayb". It shares the top-bar watermark slot.
+- **Sponsors:** the Sponsor panel adds Trayb and partner logos to the rotating sponsor box.
+- **Tournament:** the Tournament panel sets the event name, logo and backdrop.
+
+We deliberately don't add a separate overlay element that would overlap the watermark region (ELv2 keeps the Spectra watermark legible; the supporter agreement lets us set our own text, not hide the attribution).
