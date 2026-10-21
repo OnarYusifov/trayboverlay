@@ -67,6 +67,12 @@ export class ReplayLogging {
       Log.debug(`Replay file ${this.fileName} closed`);
       this.writeReady = false;
     });
+    // Trayb: an unhandled stream 'error' would crash the process; log and stop writing (#21).
+    this.fileWriteStream.on("error", (e) => {
+      Log.error(`Replay file ${this.fileName} error: ${e}`);
+      this.writeReady = false;
+      this.isOpening = false;
+    });
   }
 
   protected writeFileStart(): number {

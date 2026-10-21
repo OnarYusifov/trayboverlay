@@ -63,6 +63,13 @@ export class WebsocketIncoming {
         Log.error(`${user.name} encountered a Websocket error.`);
       });
 
+      // Trayb: drop the client from authedClients when its socket closes, otherwise the list
+      // grows without bound over a long-running server (#21).
+      ws.on("disconnect", () => {
+        const i = WebsocketIncoming.authedClients.findIndex((c) => c.ws.id === ws.id);
+        if (i !== -1) WebsocketIncoming.authedClients.splice(i, 1);
+      });
+
       ws.once("obs_logon", async (msg) => {
         try {
           const authenticationData: IAuthenticationData = JSON.parse(msg.toString());
@@ -93,7 +100,7 @@ export class WebsocketIncoming {
             );
             ws.disconnect();
             Log.info(
-              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key}, incompatible client version ${authenticationData.clientVersion}.`,
+              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key ? "[set]" : "[empty]"}, incompatible client version ${authenticationData.clientVersion}.`,
             );
             return;
           }
@@ -107,7 +114,7 @@ export class WebsocketIncoming {
             );
             ws.disconnect();
             Log.info(
-              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key}`,
+              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key ? "[set]" : "[empty]"}`,
             );
             return;
           } else {
@@ -116,6 +123,23 @@ export class WebsocketIncoming {
               authenticationData.organizationId = validity.organizationId;
             }
             authenticationData.isSupporter = validity.isSupporter;
+          }
+
+          // Trayb: the group code becomes part of the replay file path, so reject anything
+          // that isn't plain uppercase letters/digits. A code with "/" or "\" could escape the
+          // replays folder or crash the unhandled write stream (#21).
+          if (!/^[A-Z0-9]{1,16}$/.test(authenticationData.groupCode)) {
+            ws.emit(
+              "obs_logon_ack",
+              JSON.stringify({
+                type: DataTypes.AUTH,
+                value: false,
+                reason: `Invalid group code. Use letters A-Z and digits only.`,
+              }),
+            );
+            ws.disconnect();
+            Log.info(`Received BAD auth request with invalid group code from ${authenticationData.obsName}.`);
+            return;
           }
 
           // Check if the match can be created successfully
@@ -131,7 +155,7 @@ export class WebsocketIncoming {
             );
             ws.disconnect();
             Log.info(
-              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key}`,
+              `Received BAD auth request from ${authenticationData.obsName}, using Group Code ${authenticationData.groupCode} and key ${authenticationData.key ? "[set]" : "[empty]"}`,
             );
             return;
           }
@@ -250,6 +274,12 @@ export class WebsocketIncoming {
       try {
         const data = JSON.parse(msg.toString());
         if (isAuthedData(data)) {
+          // Trayb: route by the socket's own match, not the group code in the payload, so a
+          // logged-in client can't push data into someone else's match (#21).
+          if ("groupCode" in data && data.groupCode !== user.groupCode) {
+            Log.info(`Dropped obs_data for ${data.groupCode} from a client authed to ${user.groupCode}`);
+            return;
+          }
           await this.matchController.receiveMatchData(data);
         }
       } catch (e) {
@@ -261,9 +291,19 @@ export class WebsocketIncoming {
       try {
         const data = JSON.parse(msg.toString());
         if (isAuthedData(data)) {
+          // Trayb: a player may only send their own player's data, into their own match (#21).
+          const auxData = data as IAuthedAuxData;
+          if (user.playerId !== "" && auxData.playerId !== user.playerId) {
+            Log.info(`Dropped aux_data for player ${auxData.playerId} from ${user.playerId}`);
+            return;
+          }
+          if ("matchId" in data && this.matchController.findMatch(auxData.matchId) !== user.groupCode) {
+            Log.info(`Dropped aux_data for match ${auxData.matchId} from a client authed to ${user.groupCode}`);
+            return;
+          }
           await this.matchController.receiveMatchData(data);
           if (data.type === DataTypes.AUX_SCOREBOARD && user.playerId === "") {
-            user.playerId = (data as IAuthedAuxData).playerId;
+            user.playerId = auxData.playerId;
           }
         }
       } catch (e) {
