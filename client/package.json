@@ -4,7 +4,7 @@
     "name": "Purple Shark UG (haftungsbeschränkt)",
     "url": "https://www.valospectra.com"
   },
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Trayb Client - a self-hosted build of the Spectra Client (https://github.com/OnarYusifov/trayboverlay)",
   "private": true,
   "main": "./app/main.js",
