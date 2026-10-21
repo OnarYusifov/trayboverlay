@@ -53,3 +53,41 @@ jobs:
       # skip-build: the client's postinstall rebuilds native modules for Electron, which CI doesn't need
       - run: yarn install --immutable --mode=skip-build
       - run: ${{ matrix.build }}
+
+  smoke:
+    # End-to-end: boot the server, observer logs on, overlay gets match_data, guards reject bad input (#22).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: corepack enable
+      - name: Build the server
+        working-directory: server
+        run: |
+          yarn install --immutable --mode=skip-build
+          yarn build
+      - name: Start the server
+        working-directory: server
+        env:
+          INSECURE: "true"
+          REQUIRE_AUTH_KEY: "true"
+          AUTH_KEY: smokekey123
+        run: |
+          node dist/index.js &
+          echo "SERVER_PID=$!" >> "$GITHUB_ENV"
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:5101/status && break
+            sleep 1
+          done
+      - name: Run the smoke test
+        run: |
+          npm i --no-save socket.io-client@4.8.1
+          node scripts/smoke-test.mjs
+        env:
+          SMOKE_HOST: 127.0.0.1
+          SMOKE_KEY: smokekey123
+      - name: Stop the server
+        if: always()
+        run: kill "$SERVER_PID" 2>/dev/null || true
