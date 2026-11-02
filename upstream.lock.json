@@ -4,8 +4,7 @@
     "url": "https://github.com/ValoSpectra/Spectra-Server.git",
     "branch": "main",
     "ref": "main",
-    "commit": "64782ac2dcd5863aa179a084c8f402c3be794ebe",
-    "note": "v0.3.5 plus the BattleRiffle name fix"
+    "commit": "e5be9401d2009e689a567ebaae7fb5ca8315cff4"
   },
   "client": {
     "remote": "upstream-client",
