@@ -11,8 +11,8 @@
     "remote": "upstream-client",
     "url": "https://github.com/ValoSpectra/Spectra-Client.git",
     "branch": "main",
-    "ref": "v0.3.4",
-    "commit": "a07fd0853129a549ac4d657544ae1e0b93e4f5e8"
+    "ref": "main",
+    "commit": "4109c316fc2e0be703e329ce3b2dfdbf5cf71ab6"
   },
   "frontend": {
     "remote": "upstream-frontend",
